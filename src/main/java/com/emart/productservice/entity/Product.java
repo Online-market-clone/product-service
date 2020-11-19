@@ -1,53 +1,58 @@
 package com.emart.productservice.entity;
 
-import java.util.Set;
-import java.util.UUID;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+//pretty sloppy set up just so we can get a basic template for products set up
+@Document(collection = "productCollection")
+public class Product {
 
-import com.emart.productservice.model.DateAndOperation;
-
-import lombok.Data;
-
-@Data
-@Entity
-@Table(name = "product")
-public class Product extends DateAndOperation {
-
-	@Id
+	/*@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	@Column(name = "productId", updatable = false, nullable = false)
 	@Type(type = "uuid-char")
-	private UUID productId;
+	private UUID productId;*/
 
-	private String productName;
-	private String description;
+	private String name;
+	private String desc;
+	private String id;
+	private int price;
+	private int amount;
+	private float rating;
 
-	@ManyToOne
-	@JoinColumn(name = "productStatusId")
-	private ProductStatus productStatus;
+	public Product(String name, String id) {
+		this.name = name;
+		//this.desc = desc;
+		this.id = id;
+		/*this.price = price;
+		this.amount = amount;
+		this.rating = rating;*/
+	}
 
-	private double regularPrice;
-	private double discount;
+	public String toString() {
+		return String.format(
+				"Product[id=%s, name='%s']",
+				id, name);
+	}
 
-	private int quantity;
-	private boolean taxable = false;
+	//private String productName;
+	//private String description;
 
-	@OneToMany(mappedBy = "product")
-	Set<ProductCategory> productCategories;
+	//@ManyToOne
+	//@JoinColumn(name = "productStatusId")
+	//private ProductStatus productStatus;
 
-	@OneToMany(mappedBy = "product")
-	private Set<ProductTag> productTags;
+	//private double regularPrice;
+	//private double discount;
+
+	//private int quantity;
+	//private boolean taxable = false;
+
+	//@OneToMany(mappedBy = "product")
+	//Set<ProductCategory> productCategories;
+
+	//@OneToMany(mappedBy = "product")
+	//private Set<ProductTag> productTags;
 
 }
